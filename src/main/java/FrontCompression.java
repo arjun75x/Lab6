@@ -41,11 +41,20 @@ public class FrontCompression {
             return "";
         }
 
-        /*
-         * Complete this function.
-         */
 
-        return "";
+        String[] words = corpus.split("\n");
+        String compressed = "" + "0 " + words[0] + "\n";
+        for (int i = 1; i < words.length; i++) {
+            int prefix = longestPrefix(words[i], words[i - 1]);
+            compressed += prefix + " ";
+            for (int j = prefix; j < words[i].length(); j++) {
+                compressed += words[i].charAt(j);
+            }
+            if (i - 1 < words.length) {
+                compressed += "\n";
+            }
+        }
+        return compressed;
     }
 
     /**
@@ -63,12 +72,19 @@ public class FrontCompression {
         } else if (corpus.length() == 0) {
             return "";
         }
-
-        /*
-         * Complete this function.
-         */
-
-        return "";
+        String[] words = corpus.split("\n");
+        String decompressed = "" + words[0].substring(2) + "\n";
+        String word = words[0].substring(2);
+        for (int i = 1; i < words.length; i++) {
+            String newWord = "";
+            String[] line = words[i].split(" ");
+            int num = Integer.parseInt(line[0]);
+            newWord += word.substring(0, num);
+            newWord += line[1];
+            word = newWord;
+            decompressed += newWord + "\n";
+        }
+        return decompressed;
     }
 
     /**
@@ -79,10 +95,15 @@ public class FrontCompression {
      * @return the length of the common prefix between the two strings
      */
     private static int longestPrefix(final String firstString, final String secondString) {
-        /*
-         * Complete this function.
-         */
-        return 0;
+        int index = 0;
+        for (int i = 0; i < firstString.length() && i < secondString.length(); i++) {
+            if (firstString.charAt(i) == secondString.charAt(i)) {
+                index++;
+            } else {
+                break;
+            }
+        }
+        return index;
     }
 
     /**
